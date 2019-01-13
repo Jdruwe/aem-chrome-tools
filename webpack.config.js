@@ -8,8 +8,8 @@ module.exports = {
     mode,
     devtool: "inline-source-map",
     entry: {
-        "content-script": "./plugin-src/content-script.js",
-        "background": "./plugin-src/my-background.js"
+        "background": "./plugin-src/scripts/background/background.js",
+        "environment-display": "./plugin-src/scripts/content/environment-display.js"
     },
     output: {
         publicPath: ".",
@@ -18,11 +18,12 @@ module.exports = {
         libraryTarget: "umd"
     },
     plugins: [
-        /***********************************************************************/
-        /* By default the plugin will work only when NODE_ENV is "development" */
-        /***********************************************************************/
-        new ChromeExtensionReloader(),
-
+        new ChromeExtensionReloader({
+            entries: {
+                contentScript: ['environment-display'],
+                background: 'background'
+            }
+        }),
         new MiniCssExtractPlugin({filename: "style.css"}),
         new CopyWebpackPlugin([
             {from: "./manifest.json"},

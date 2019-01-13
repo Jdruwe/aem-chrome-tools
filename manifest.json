@@ -2,10 +2,15 @@
   "manifest_version": 2,
   "name": "AEM Chrome Tools",
   "version": "0.1",
+  "permissions": [
+    "storage",
+    "notifications"
+  ],
   "background": {
     "scripts": [
       "background.js"
-    ]
+    ],
+    "persistent": false
   },
   "icons": {
     "16": "icon16.png",
@@ -19,11 +24,9 @@
         "<all_urls>"
       ],
       "js": [
-        "content-script.js"
+        "environment-display.js"
       ],
-      "css": [
-        "style.css"
-      ]
+      "run_at": "document_end"
     }
   ]
 }
