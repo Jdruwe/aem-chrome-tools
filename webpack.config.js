@@ -9,7 +9,8 @@ module.exports = {
     devtool: "inline-source-map",
     entry: {
         "background": "./plugin-src/scripts/background/background.js",
-        "environment-display": "./plugin-src/scripts/content/environment-display.js"
+        "environment-display": "./plugin-src/scripts/content/environment-display.js",
+        "options": "./plugin-src/options/options.js"
     },
     output: {
         publicPath: ".",
@@ -27,7 +28,9 @@ module.exports = {
         new MiniCssExtractPlugin({filename: "style.css"}),
         new CopyWebpackPlugin([
             {from: "./manifest.json"},
-            {from: "./icons"}
+            {from: "./icons"},
+            {from: "./plugin-src/options/options.html"},
+            {from: "./plugin-src/options/options.css"}
         ])
     ],
     module: {

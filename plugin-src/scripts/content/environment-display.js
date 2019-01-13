@@ -1,14 +1,9 @@
 import {MESSAGE_ENVIRONMENTS} from '../../constants'
+import {fetchData} from '../../util'
 
 function initializeEnvironmentDisplay() {
     fetchData(MESSAGE_ENVIRONMENTS, function (data) {
         handleAuthoringInformation(data);
-    });
-}
-
-function fetchData(type, callback) {
-    chrome.runtime.sendMessage({type: type}, (response) => {
-        callback(response);
     });
 }
 

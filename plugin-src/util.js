@@ -8,3 +8,9 @@ export function notify(message) {
         message: message
     });
 }
+
+export function fetchData(type, callback) {
+    chrome.runtime.sendMessage({type: type}, (response) => {
+        callback(response);
+    });
+}
