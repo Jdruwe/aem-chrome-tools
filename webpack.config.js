@@ -9,8 +9,9 @@ module.exports = {
     devtool: "inline-source-map",
     entry: {
         "background": "./plugin-src/scripts/background/background.js",
-        "environment-display": "./plugin-src/scripts/content/environment-display.js",
-        "options": "./plugin-src/options/options.js"
+        "options": "./plugin-src/options/options.js",
+        "content-environment-display": "./plugin-src/scripts/content/environment-display.js",
+        "feature-environment-display": "./plugin-src/options/feature-environment-display.js"
     },
     output: {
         publicPath: ".",
@@ -21,7 +22,7 @@ module.exports = {
     plugins: [
         new ChromeExtensionReloader({
             entries: {
-                contentScript: ['environment-display'],
+                contentScript: ['content-environment-display'],
                 background: 'background'
             }
         }),
@@ -31,9 +32,8 @@ module.exports = {
         new CopyWebpackPlugin([
             {from: "./manifest.json"},
             {from: "./icons"},
-            {from: "./plugin-src/options/options.html"},
-            {from: "./plugin-src/options/**/*.html", to: 'options', ignore: ['options.html'], flatten: true},
-            {from: "./plugin-src/options/**/*.js", to: 'options', ignore: ['options.js'], flatten: true}
+            {from: "./plugin-src/options/**/*.css", flatten: true},
+            {from: "./plugin-src/options/**/*.html", flatten: true},
         ])
     ],
     module: {
@@ -54,8 +54,7 @@ module.exports = {
                     {
                         loader: MiniCssExtractPlugin.loader
                     },
-                    "css-loader",
-                    "sass-loader"
+                    "css-loader"
                 ]
             },
             {

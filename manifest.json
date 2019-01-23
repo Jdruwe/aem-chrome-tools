@@ -24,7 +24,7 @@
         "<all_urls>"
       ],
       "js": [
-        "environment-display.js"
+        "content-environment-display.js"
       ],
       "run_at": "document_end"
     }

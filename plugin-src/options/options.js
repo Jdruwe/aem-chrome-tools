@@ -1,5 +1,3 @@
-import './options.scss'
-
 function setFeatureOptionListeners() {
     const navigationItems = document.getElementsByClassName("navigation__item");
     for (let i = 0; i < navigationItems.length; i++) {
@@ -14,7 +12,7 @@ function setFeatureOptionListeners() {
 
 function showFeatureOption(feature) {
     const iframe = document.getElementById("iframe");
-    iframe.setAttribute("src", `options/${feature}.html`);
+    iframe.setAttribute("src", `feature-${feature}.html`);
 }
 
 setFeatureOptionListeners();
