@@ -14,3 +14,9 @@ export function fetchData(type, callback) {
         callback(response);
     });
 }
+
+export function createElementFromString(html) {
+    const e = document.createElement('div');
+    e.innerHTML = html;
+    return e.firstChild;
+}

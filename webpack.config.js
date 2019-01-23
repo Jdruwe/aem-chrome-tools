@@ -25,12 +25,15 @@ module.exports = {
                 background: 'background'
             }
         }),
-        new MiniCssExtractPlugin({filename: "style.css"}),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+        }),
         new CopyWebpackPlugin([
             {from: "./manifest.json"},
             {from: "./icons"},
             {from: "./plugin-src/options/options.html"},
-            {from: "./plugin-src/options/options.css"}
+            {from: "./plugin-src/options/**/*.html", to: 'options', ignore: ['options.html'], flatten: true},
+            {from: "./plugin-src/options/**/*.js", to: 'options', ignore: ['options.js'], flatten: true}
         ])
     ],
     module: {
@@ -46,12 +49,13 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
+                test: /\.(scss|css)$/,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader
                     },
-                    "css-loader"
+                    "css-loader",
+                    "sass-loader"
                 ]
             },
             {
