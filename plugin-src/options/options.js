@@ -1,21 +1,43 @@
-function setFeatureOptionListeners() {
-    const navigationItems = document.getElementsByClassName("navigation__item");
-    for (let i = 0; i < navigationItems.length; i++) {
-        navigationItems[i].addEventListener("click", function (e) {
-            const target = e.target;
-            const feature = target.dataset.feature;
-            showFeatureOption(feature);
-            e.preventDefault();
-        })
+let navigationItems;
+
+function initializeOptions() {
+    navigationItems = Array.from(document.getElementsByClassName('navigation__item'));
+    for (let item of navigationItems) {
+        setNavigationItemClickListener(item);
     }
 }
 
-function showFeatureOption(feature) {
-    const iframe = document.getElementById("iframe");
-    iframe.setAttribute("src", `feature-${feature}.html`);
+function setNavigationItemClickListener(navItem) {
+    navItem.addEventListener('click', function (e) {
+        const target = e.target;
+        const feature = target.dataset.feature;
+        updateNavigation(navItem);
+        loadFeature(feature);
+        e.preventDefault();
+    })
 }
 
-setFeatureOptionListeners();
+function updateNavigation(navItem) {
+    deactivateNavigationItems();
+    activateNavigationItem(navItem)
+}
+
+function activateNavigationItem(item) {
+    item.classList.add('active')
+}
+
+function deactivateNavigationItems() {
+    for (let item of navigationItems) {
+        item.classList.remove('active')
+    }
+}
+
+function loadFeature(feature) {
+    const iframe = document.getElementById('iframe');
+    iframe.setAttribute('src', `feature-${feature}.html`);
+}
+
+initializeOptions();
 
 
 // import {MESSAGE_ENVIRONMENTS} from '../constants'

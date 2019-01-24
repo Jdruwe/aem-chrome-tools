@@ -1,11 +1,39 @@
+html, body, .container, iframe {
+    height: 100%
+}
+
 .container {
-  margin: 10px;
+    margin: 10px;
 }
 
 iframe {
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background-color: transparent;
-  width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    width: 100%;
+}
+
+.navigation {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.navigation__item {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+.navigation__item:hover {
+    background-color: #ddd;
+}
+
+.navigation__item.active {
+    background-color: #ccc;
 }

@@ -31,3 +31,7 @@
 .feature__content {
     padding: 10px;
 }
+
+body {
+    margin: 10px 0;
+}
