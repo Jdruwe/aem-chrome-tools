@@ -9,17 +9,20 @@ function initializeOptions() {
 
 function setNavigationItemClickListener(navItem) {
     navItem.addEventListener('click', function (e) {
-        const target = e.target;
-        const feature = target.dataset.feature;
-        updateNavigation(navItem);
-        loadFeature(feature);
-        e.preventDefault();
+        handleNavigationItemClick(e.target);
     })
 }
 
-function updateNavigation(navItem) {
+function handleNavigationItemClick(item) {
+    const feature = item.dataset.feature;
+    updateNavigation(item);
+    loadFeature(feature);
+    e.preventDefault();
+}
+
+function updateNavigation(item) {
     deactivateNavigationItems();
-    activateNavigationItem(navItem)
+    activateNavigationItem(item)
 }
 
 function activateNavigationItem(item) {
@@ -37,8 +40,14 @@ function loadFeature(feature) {
     iframe.setAttribute('src', `feature-${feature}.html`);
 }
 
-initializeOptions();
+function showFirstFeature() {
+    if (navigationItems.length > 0) {
+        handleNavigationItemClick(navigationItems[0]);
+    }
+}
 
+initializeOptions();
+showFirstFeature();
 
 // import {MESSAGE_ENVIRONMENTS} from '../constants'
 // import {fetchData, createElementFromString} from '../util'
