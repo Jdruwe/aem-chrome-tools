@@ -16,31 +16,31 @@ function setInitialData() {
         environments: [
             {
                 url: "http://author-001.prd.aws.intranet",
-                color: "red"
+                color: "#FF0000"
             },
             {
                 url: "http://author.prd.aws.intranet",
-                color: "red"
+                color: "#FF0000"
             },
             {
                 url: "http://author-001.acc.aws.intranet",
-                color: "orange"
+                color: "#FFA500"
             },
             {
                 url: "http://author.acc.aws.intranet",
-                color: "orange"
+                color: "#FFA500"
             },
             {
                 url: "http://author-001.tst.aws.intranet",
-                color: "blue"
+                color: "#0000FF"
             },
             {
                 url: "http://author.tst.aws.intranet",
-                color: "blue"
+                color: "#0000FF"
             },
             {
                 url: "http://localhost:4502",
-                color: "green"
+                color: "#008000"
             }
         ]
     })
