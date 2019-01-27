@@ -14,3 +14,9 @@ export function fetchData(type, callback) {
         callback(response);
     });
 }
+
+export function postData(type, data, callback) {
+    chrome.runtime.sendMessage({type: type, data: data}, (response) => {
+        callback(response);
+    });
+}

@@ -1,8 +1,8 @@
 import {notify} from '../../util';
 
 chrome.runtime.onInstalled.addListener(function (details) {
-    setInitialData();
     if (isNewInstallation(details)) {
+        setInitialData();
         notify("Installation successful");
     }
 });
@@ -46,8 +46,25 @@ function setInitialData() {
     })
 }
 
-export function getEnvironments(response) {
-    chrome.storage.sync.get("environments", (data) => {
-        response(data.environments);
+function getData(property, response) {
+    chrome.storage.sync.get(property, (data) => {
+        response(data[property]);
     });
+}
+
+function updateData(property, data, response) {
+    const update = {};
+    update[property] = data;
+
+    chrome.storage.sync.set(update, () => {
+        response();
+    });
+}
+
+export function getEnvironments(response) {
+    getData("environments", response);
+}
+
+export function updateEnvironments(response, environments) {
+    updateData("environments", environments, response);
 }
