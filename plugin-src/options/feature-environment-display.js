@@ -1,4 +1,4 @@
-import {fetchData, notify, postData} from '../util';
+import {fetchData, notify, postData, removeAllChildren} from '../util';
 import {
     MESSAGE_ENVIRONMENTS,
     FEATURE_CONTROL_SAVE,
@@ -18,25 +18,43 @@ class EnvironmentLine {
     }
 }
 
-const environmentLines = [];
+let environments;
+let environmentLines;
+
+const ENVIRONMENT_SECTION_CLASS_NAME = 'environment__name';
+const ENVIRONMENT_SECTION_CLASS_DISPLAY = 'environment__display';
+const ENVIRONMENT_SECTION_CLASS_REMOVAL = 'environment__removal';
 
 function processEnvironmentsData(data) {
-    console.log(data);
-    const environments = document.getElementsByClassName('environments');
-    data.forEach(function (environment) {
-        const environmentLine = createEnvironmentLine(environment);
-        environmentLines.push(environmentLine);
-        environments[0].appendChild(environmentLine.container);
+    environments = data;
+    environmentLines = [];
+
+    environments.forEach(function (environment) {
+        environmentLines.push(createEnvironmentLine(environment));
     });
+
+    displayEnvironmentLines();
+    setEnvironmentRemovalListener();
     setControlListeners();
+}
+
+function displayEnvironmentLines() {
+    const environments = document.getElementsByClassName('environments')[0];
+    removeAllChildren(environments);
+
+    environmentLines.forEach((environmentLine) => {
+        environments.appendChild(environmentLine.container);
+    });
 }
 
 function createEnvironmentLine(env) {
     const environmentSection = createEnvironmentSection();
     const environmentNameSection = createEnvironmentNameSection(env);
     const environmentDisplaySection = createEnvironmentDisplaySection(env);
+    const environmentRemovalSection = createEnvironmentRemovalSection();
     environmentSection.appendChild(environmentNameSection);
     environmentSection.appendChild(environmentDisplaySection);
+    environmentSection.appendChild(environmentRemovalSection);
     return new EnvironmentLine(environmentSection, environmentNameSection, environmentDisplaySection);
 }
 
@@ -49,7 +67,7 @@ function createEnvironmentSection() {
 function createEnvironmentNameSection(env) {
     const environmentName = document.createElement('div');
     const environmentNameInput = document.createElement('input');
-    environmentName.classList.add('environment__name');
+    environmentName.classList.add(ENVIRONMENT_SECTION_CLASS_NAME);
     environmentNameInput.setAttribute('value', env.url);
     environmentName.appendChild(environmentNameInput);
     return environmentName;
@@ -58,11 +76,21 @@ function createEnvironmentNameSection(env) {
 function createEnvironmentDisplaySection(env) {
     const environmentDisplay = document.createElement('div');
     const environmentDisplayInput = document.createElement('input');
-    environmentDisplay.classList.add('environment__display');
+    environmentDisplay.classList.add(ENVIRONMENT_SECTION_CLASS_DISPLAY);
     environmentDisplayInput.setAttribute('type', 'color');
     environmentDisplayInput.setAttribute('value', env.color);
     environmentDisplay.appendChild(environmentDisplayInput);
     return environmentDisplay;
+}
+
+function createEnvironmentRemovalSection() {
+    const environmentRemoval = document.createElement('div');
+    const environmentRemovalButton = document.createElement('button');
+    const text = document.createTextNode('Delete');
+    environmentRemovalButton.appendChild(text);
+    environmentRemoval.appendChild(environmentRemovalButton);
+    environmentRemoval.classList.add(ENVIRONMENT_SECTION_CLASS_REMOVAL);
+    return environmentRemoval;
 }
 
 function setControlListeners() {
@@ -72,6 +100,21 @@ function setControlListeners() {
 function setSaveFeatureControlListener() {
     const saveButton = document.getElementById(FEATURE_CONTROL_SAVE);
     saveButton.addEventListener('click', () => saveFeature());
+}
+
+function setEnvironmentRemovalListener() {
+    const environmentRemovalSections = Array.from(document.getElementsByClassName(ENVIRONMENT_SECTION_CLASS_REMOVAL));
+    for (let i = 0; i < environmentRemovalSections.length; i++) {
+        const deleteButton = environmentRemovalSections[i].getElementsByTagName('button')[0];
+        deleteButton.addEventListener('click', () => {
+            removeEnvironment(i);
+        });
+    }
+}
+
+function removeEnvironment(index) {
+    environments.splice(index, 1);
+    processEnvironmentsData(environments);
 }
 
 function saveFeature() {

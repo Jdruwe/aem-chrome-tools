@@ -20,3 +20,9 @@ export function postData(type, data, callback) {
         callback(response);
     });
 }
+
+export function removeAllChildren(element) {
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+}
