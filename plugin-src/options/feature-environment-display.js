@@ -7,7 +7,7 @@ import {
 } from '../constants';
 
 function initialize() {
-    fetchData(MESSAGE_ENVIRONMENTS, processEnvironmentsData);
+    fetchData(MESSAGE_ENVIRONMENTS, handleData);
 }
 
 class EnvironmentLine {
@@ -25,6 +25,11 @@ const ENVIRONMENT_SECTION_CLASS_NAME = 'environment__name';
 const ENVIRONMENT_SECTION_CLASS_DISPLAY = 'environment__display';
 const ENVIRONMENT_SECTION_CLASS_REMOVAL = 'environment__removal';
 
+function handleData(data) {
+    processEnvironmentsData(data);
+    setControlListeners();
+}
+
 function processEnvironmentsData(data) {
     environments = data;
     environmentLines = [];
@@ -35,7 +40,6 @@ function processEnvironmentsData(data) {
 
     displayEnvironmentLines();
     setEnvironmentRemovalListener();
-    setControlListeners();
 }
 
 function displayEnvironmentLines() {
@@ -94,12 +98,40 @@ function createEnvironmentRemovalSection() {
 }
 
 function setControlListeners() {
+    setNewEnvironmentControlListener();
     setSaveFeatureControlListener();
+}
+
+function setNewEnvironmentControlListener() {
+    const saveButton = document.getElementById("newEnvironment");
+    saveButton.addEventListener('click', () => {
+        addNewEnvironment();
+    });
+}
+
+function addNewEnvironment() {
+    environments.push({
+        url: "http://url.com",
+        color: "#FFFFFF"
+    });
+    processEnvironmentsData(environments);
 }
 
 function setSaveFeatureControlListener() {
     const saveButton = document.getElementById(FEATURE_CONTROL_SAVE);
     saveButton.addEventListener('click', () => saveFeature());
+}
+
+function saveFeature() {
+    const result = [];
+    environmentLines.forEach(function (environmentLine) {
+        result.push({
+            url: environmentLine.nameSection.getElementsByTagName('input')[0].value,
+            color: environmentLine.displaySection.getElementsByTagName('input')[0].value
+        })
+    });
+
+    postData(MESSAGE_ENVIRONMENTS_UPDATE, result, () => notify(FEATURE_SAVE_SUCCESS));
 }
 
 function setEnvironmentRemovalListener() {
@@ -115,18 +147,6 @@ function setEnvironmentRemovalListener() {
 function removeEnvironment(index) {
     environments.splice(index, 1);
     processEnvironmentsData(environments);
-}
-
-function saveFeature() {
-    const result = [];
-    environmentLines.forEach(function (environmentLine) {
-        result.push({
-            url: environmentLine.nameSection.getElementsByTagName('input')[0].value,
-            color: environmentLine.displaySection.getElementsByTagName('input')[0].value
-        })
-    });
-
-    postData(MESSAGE_ENVIRONMENTS_UPDATE, result, () => notify(FEATURE_SAVE_SUCCESS));
 }
 
 initialize();

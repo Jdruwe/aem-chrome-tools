@@ -42,6 +42,10 @@
     height: 30px;
 }
 
+.feature__controls button:not(:last-child) {
+    margin-bottom: 10px;
+}
+
 body {
     margin: 10px 0;
 }
