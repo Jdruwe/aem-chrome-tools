@@ -1,18 +1,25 @@
-import {MESSAGE_ENVIRONMENTS} from '../../constants'
+import {MESSAGE_ENVIRONMENTS_GET} from '../../constants'
 import {fetchData} from '../../util'
 
 function initializeEnvironmentDisplay() {
-    fetchData(MESSAGE_ENVIRONMENTS, function (data) {
+    fetchData(MESSAGE_ENVIRONMENTS_GET, (data) => {
         handleAuthoringInformation(data);
     });
 }
 
 function handleAuthoringInformation(data) {
     const location = window.location.toString();
-    const authoringInfo = data.find(info => location.startsWith(info.url));
+    const authoringInfo = data
+        .filter(isValidEnvironment)
+        .find((env) => location.startsWith(env.url));
+
     if (authoringInfo) {
         displayEnvironmentInfo(authoringInfo.color);
     }
+}
+
+function isValidEnvironment(env) {
+    return env.url != null && env.url !== '';
 }
 
 function displayEnvironmentInfo(color) {

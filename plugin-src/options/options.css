@@ -40,3 +40,7 @@ iframe {
 .navigation__item.active {
     background-color: #ccc;
 }
+
+.navigation__item input {
+    display: inline;
+}

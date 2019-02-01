@@ -3,12 +3,12 @@ import {notify} from '../../util';
 chrome.runtime.onInstalled.addListener(function (details) {
     if (isNewInstallation(details)) {
         setInitialData();
-        notify("Installation successful");
+        notify('Installation successful');
     }
 });
 
 function isNewInstallation(details) {
-    return details.reason === "install";
+    return details.reason === 'install';
 }
 
 function setInitialData() {
@@ -42,7 +42,11 @@ function setInitialData() {
                 url: "http://localhost:4502",
                 color: "#008000"
             }
-        ]
+        ],
+        features: {
+            environmentDisplay: true,
+            componentDetail: false
+        }
     })
 }
 
@@ -61,10 +65,18 @@ function updateData(property, data, response) {
     });
 }
 
+export function getFeatures(response) {
+    getData('features', response);
+}
+
+export function updateFeatures(response, feature) {
+    updateData('features', feature, response);
+}
+
 export function getEnvironments(response) {
-    getData("environments", response);
+    getData('environments', response);
 }
 
 export function updateEnvironments(response, environments) {
-    updateData("environments", environments, response);
+    updateData('environments', environments, response);
 }

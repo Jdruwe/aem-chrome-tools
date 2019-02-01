@@ -7,8 +7,23 @@
 <div class="container">
 
     <nav class="navigation">
-        <a class="navigation__item" data-feature="environment-display">Environment Display</a>
-        <a class="navigation__item" data-feature="component-detail">Component Detail</a>
+
+        <a class="navigation__item"
+           data-feature-name="environmentDisplay"
+           data-feature-template="environment-display">
+            <input title="Enable environment display"
+                   type="checkbox">
+            Environment Display
+        </a>
+
+        <a class="navigation__item"
+           data-feature-name="componentDetail"
+           data-feature-template="component-detail">
+            <input title="Enable component detail"
+                   type="checkbox">
+            Component Detail
+        </a>
+
     </nav>
 
     <iframe id="iframe" src=""></iframe>

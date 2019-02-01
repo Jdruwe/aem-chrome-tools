@@ -1,14 +1,10 @@
 import {fetchData, notify, postData, removeAllChildren} from '../util';
 import {
-    MESSAGE_ENVIRONMENTS,
+    MESSAGE_ENVIRONMENTS_GET,
     FEATURE_CONTROL_SAVE,
     MESSAGE_ENVIRONMENTS_UPDATE,
     FEATURE_SAVE_SUCCESS
 } from '../constants';
-
-function initialize() {
-    fetchData(MESSAGE_ENVIRONMENTS, handleData);
-}
 
 class EnvironmentLine {
     constructor(container, nameSection, displaySection) {
@@ -18,36 +14,41 @@ class EnvironmentLine {
     }
 }
 
-let environments;
 let environmentLines;
 
+const environmentsElement = document.getElementsByClassName('environments')[0];
 const ENVIRONMENT_SECTION_CLASS_NAME = 'environment__name';
 const ENVIRONMENT_SECTION_CLASS_DISPLAY = 'environment__display';
 const ENVIRONMENT_SECTION_CLASS_REMOVAL = 'environment__removal';
 
-function handleData(data) {
-    processEnvironmentsData(data);
-    setControlListeners();
+function initialize() {
+    fetchData(MESSAGE_ENVIRONMENTS_GET, (data) => {
+        handleData(data);
+        setControlListeners();
+    });
 }
 
-function processEnvironmentsData(data) {
-    environments = data;
-    environmentLines = [];
-
-    environments.forEach(function (environment) {
-        environmentLines.push(createEnvironmentLine(environment));
-    });
-
+function handleData(data) {
+    resetAllEnvironments();
+    populateEnvironmentLines(data);
     displayEnvironmentLines();
     setEnvironmentRemovalListener();
 }
 
-function displayEnvironmentLines() {
-    const environments = document.getElementsByClassName('environments')[0];
-    removeAllChildren(environments);
+function resetAllEnvironments() {
+    environmentLines = [];
+    removeAllChildren(environmentsElement);
+}
 
+function populateEnvironmentLines(environments) {
+    environments.forEach(function (environment) {
+        environmentLines.push(createEnvironmentLine(environment));
+    });
+}
+
+function displayEnvironmentLines() {
     environmentLines.forEach((environmentLine) => {
-        environments.appendChild(environmentLine.container);
+        environmentsElement.appendChild(environmentLine.container);
     });
 }
 
@@ -73,6 +74,7 @@ function createEnvironmentNameSection(env) {
     const environmentNameInput = document.createElement('input');
     environmentName.classList.add(ENVIRONMENT_SECTION_CLASS_NAME);
     environmentNameInput.setAttribute('value', env.url);
+    environmentNameInput.setAttribute('placeholder', 'http://www.environment.com');
     environmentName.appendChild(environmentNameInput);
     return environmentName;
 }
@@ -103,18 +105,16 @@ function setControlListeners() {
 }
 
 function setNewEnvironmentControlListener() {
-    const saveButton = document.getElementById("newEnvironment");
+    const saveButton = document.getElementById('newEnvironment');
     saveButton.addEventListener('click', () => {
         addNewEnvironment();
     });
 }
 
 function addNewEnvironment() {
-    environments.push({
-        url: "http://url.com",
-        color: "#FFFFFF"
-    });
-    processEnvironmentsData(environments);
+    const data = getCurrentData();
+    data.push({url: '', color: '#FFFFFF'});
+    handleData(data);
 }
 
 function setSaveFeatureControlListener() {
@@ -123,15 +123,24 @@ function setSaveFeatureControlListener() {
 }
 
 function saveFeature() {
-    const result = [];
-    environmentLines.forEach(function (environmentLine) {
-        result.push({
-            url: environmentLine.nameSection.getElementsByTagName('input')[0].value,
-            color: environmentLine.displaySection.getElementsByTagName('input')[0].value
-        })
-    });
+    postData(MESSAGE_ENVIRONMENTS_UPDATE, getCurrentData(), () => notify(FEATURE_SAVE_SUCCESS));
+}
 
-    postData(MESSAGE_ENVIRONMENTS_UPDATE, result, () => notify(FEATURE_SAVE_SUCCESS));
+function getCurrentData() {
+    return environmentLines.map((environmentLine) => {
+        return {
+            url: getEnvironmentName(environmentLine),
+            color: getEnvironmentColor(environmentLine)
+        }
+    });
+}
+
+function getEnvironmentName(environmentLine) {
+    return environmentLine.nameSection.getElementsByTagName('input')[0].value;
+}
+
+function getEnvironmentColor(environmentLine) {
+    return environmentLine.displaySection.getElementsByTagName('input')[0].value;
 }
 
 function setEnvironmentRemovalListener() {
@@ -145,8 +154,9 @@ function setEnvironmentRemovalListener() {
 }
 
 function removeEnvironment(index) {
-    environments.splice(index, 1);
-    processEnvironmentsData(environments);
+    const data = getCurrentData();
+    data.splice(index, 1);
+    handleData(data);
 }
 
 initialize();

@@ -1,22 +1,78 @@
-let navigationItems;
+import {fetchData, notify, postData} from "../util";
+import {MESSAGE_FEATURES_UPDATE, MESSAGE_FEATURES_GET} from "../constants";
 
-function initializeOptions() {
-    navigationItems = Array.from(document.getElementsByClassName('navigation__item'));
-    for (let item of navigationItems) {
-        setNavigationItemClickListener(item);
+class NavigationItem {
+    constructor(container, featureName, featureTemplate) {
+        this.container = container;
+        this.featureName = featureName;
+        this.featureTemplate = featureTemplate;
+    }
+
+    setFeatureStatus(status) {
+        this.container.getElementsByTagName("input")[0].checked = status;
     }
 }
 
-function setNavigationItemClickListener(navItem) {
-    navItem.addEventListener('click', function (e) {
-        handleNavigationItemClick(e.target);
-    })
+let renameMeItems = [];
+
+//TODO: remove this, we can use renameMeItems!
+let navigationItems;
+
+let features;
+
+function initializeOptions() {
+    populateNavigationItems();
+    getFeatures()
 }
 
-function handleNavigationItemClick(item) {
-    const feature = item.dataset.feature;
-    updateNavigation(item);
-    loadFeature(feature);
+function getFeatures() {
+    fetchData(MESSAGE_FEATURES_GET, (data) => {
+        features = data;
+        finaliseNavigationItems();
+    });
+}
+
+function populateNavigationItems() {
+    navigationItems = Array.from(document.getElementsByClassName('navigation__item'));
+    for (let item of navigationItems) {
+        renameMeItems.push(new NavigationItem(item, item.dataset.featureName, item.dataset.featureTemplate))
+    }
+}
+
+function finaliseNavigationItems() {
+    renameMeItems.forEach(function (navItem) {
+        setNavigationItemFeatureStatus(navItem);
+        setNavigationItemClickListeners(navItem);
+    });
+}
+
+function setNavigationItemFeatureStatus(navItem) {
+    const status = features[navItem.featureName];
+    navItem.setFeatureStatus(status);
+}
+
+function setNavigationItemClickListeners(navItem) {
+    navItem.container.addEventListener('click', function (e) {
+        if (isCheckbox(e.target)) {
+            updateFeatureStatus(navItem, e.target.checked);
+        } else {
+            handleFeatureNavigation(navItem);
+        }
+    });
+}
+
+function isCheckbox(element) {
+    return element.matches('input[type="checkbox"]');
+}
+
+function updateFeatureStatus(navItem, status) {
+    features[navItem.featureName] = status;
+    postData(MESSAGE_FEATURES_UPDATE, features, () => notify("Post worked!"))
+}
+
+function handleFeatureNavigation(navItem) {
+    updateNavigation(navItem.container);
+    loadFeature(navItem.featureTemplate);
 }
 
 function updateNavigation(item) {
@@ -39,11 +95,12 @@ function loadFeature(feature) {
     iframe.setAttribute('src', `feature-${feature}.html`);
 }
 
-function showFirstFeature() {
-    if (navigationItems.length > 0) {
-        handleNavigationItemClick(navigationItems[0]);
-    }
-}
+// function showFirstFeature() {
+//     if (navigationItems.length > 0) {
+//         handleNavigationItemClick(navigationItems[0]);
+//     }
+// }
 
 initializeOptions();
-showFirstFeature();
+// showFirstFeature();
+
