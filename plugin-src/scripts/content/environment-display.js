@@ -1,9 +1,13 @@
-import {MESSAGE_ENVIRONMENTS_GET} from '../../constants'
-import {fetchData} from '../../util'
+import {MESSAGE_ENVIRONMENTS_GET, FEATURE_ENVIRONMENT_DISPLAY} from '../../constants'
+import {fetchData, checkFeatureStatus} from '../../util'
 
 function initializeEnvironmentDisplay() {
-    fetchData(MESSAGE_ENVIRONMENTS_GET, (data) => {
-        handleAuthoringInformation(data);
+    checkFeatureStatus(FEATURE_ENVIRONMENT_DISPLAY).then((status) => {
+        if (status) {
+            fetchData(MESSAGE_ENVIRONMENTS_GET, (data) => {
+                handleAuthoringInformation(data);
+            });
+        }
     });
 }
 

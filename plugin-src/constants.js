@@ -8,3 +8,5 @@ export const MESSAGE_FEATURES_UPDATE = "updateFeatures";
 
 export const FEATURE_CONTROL_SAVE = "saveFeature";
 export const FEATURE_SAVE_SUCCESS = "Settings have been updated.";
+
+export const FEATURE_ENVIRONMENT_DISPLAY = "environmentDisplay";

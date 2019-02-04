@@ -1,4 +1,4 @@
-import {EXTENSION_NAME} from './constants';
+import {EXTENSION_NAME, MESSAGE_FEATURES_GET} from './constants';
 
 export function notify(message, time = 4000) {
     chrome.notifications.create(null, {
@@ -27,4 +27,12 @@ export function removeAllChildren(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
+}
+
+export function checkFeatureStatus(name) {
+    return new Promise(resolve => {
+        fetchData(MESSAGE_FEATURES_GET, (features) => {
+            resolve(features[name]);
+        });
+    });
 }
