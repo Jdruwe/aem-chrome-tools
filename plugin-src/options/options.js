@@ -9,15 +9,11 @@ class NavigationItem {
     }
 
     setFeatureStatus(status) {
-        this.container.getElementsByTagName("input")[0].checked = status;
+        this.container.getElementsByTagName('input')[0].checked = status;
     }
 }
 
-let renameMeItems = [];
-
-//TODO: remove this, we can use renameMeItems!
-let navigationItems;
-
+let navigationItems = [];
 let features;
 
 function initializeOptions() {
@@ -33,17 +29,18 @@ function getFeatures() {
 }
 
 function populateNavigationItems() {
-    navigationItems = Array.from(document.getElementsByClassName('navigation__item'));
-    for (let item of navigationItems) {
-        renameMeItems.push(new NavigationItem(item, item.dataset.featureName, item.dataset.featureTemplate))
+    const items = Array.from(document.getElementsByClassName('navigation__item'));
+    for (let item of items) {
+        navigationItems.push(new NavigationItem(item, item.dataset.featureName, item.dataset.featureTemplate))
     }
 }
 
 function finaliseNavigationItems() {
-    renameMeItems.forEach(function (navItem) {
+    navigationItems.forEach(function (navItem) {
         setNavigationItemFeatureStatus(navItem);
         setNavigationItemClickListeners(navItem);
     });
+    showFirstFeature();
 }
 
 function setNavigationItemFeatureStatus(navItem) {
@@ -66,18 +63,15 @@ function isCheckbox(element) {
 }
 
 function updateFeatureStatus(navItem, status) {
+    const message = `Feature has been ${status ? 'enabled' : 'disabled'}`;
     features[navItem.featureName] = status;
-    postData(MESSAGE_FEATURES_UPDATE, features, () => notify("Post worked!"))
+    postData(MESSAGE_FEATURES_UPDATE, features, () => notify(message, 2000))
 }
 
 function handleFeatureNavigation(navItem) {
-    updateNavigation(navItem.container);
-    loadFeature(navItem.featureTemplate);
-}
-
-function updateNavigation(item) {
     deactivateNavigationItems();
-    activateNavigationItem(item)
+    activateNavigationItem(navItem.container);
+    loadFeature(navItem.featureTemplate);
 }
 
 function activateNavigationItem(item) {
@@ -86,7 +80,7 @@ function activateNavigationItem(item) {
 
 function deactivateNavigationItems() {
     for (let item of navigationItems) {
-        item.classList.remove('active')
+        item.container.classList.remove('active')
     }
 }
 
@@ -95,12 +89,11 @@ function loadFeature(feature) {
     iframe.setAttribute('src', `feature-${feature}.html`);
 }
 
-// function showFirstFeature() {
-//     if (navigationItems.length > 0) {
-//         handleNavigationItemClick(navigationItems[0]);
-//     }
-// }
+function showFirstFeature() {
+    if (navigationItems.length > 0) {
+        handleFeatureNavigation(navigationItems[0]);
+    }
+}
 
 initializeOptions();
-// showFirstFeature();
 

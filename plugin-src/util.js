@@ -1,11 +1,13 @@
 import {EXTENSION_NAME} from './constants';
 
-export function notify(message) {
+export function notify(message, time = 4000) {
     chrome.notifications.create(null, {
         type: "basic",
         iconUrl: "icon128.png",
         title: EXTENSION_NAME,
         message: message
+    }, (id) => {
+        setTimeout(() => chrome.notifications.clear(id), time);
     });
 }
 
