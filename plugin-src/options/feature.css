@@ -27,6 +27,11 @@
     background-color: #E7E7E7;
 }
 
+.feature__illustration {
+    margin-top: 10px;
+    max-width: 100%;
+}
+
 .feature__content {
     padding: 10px;
     border-top: 1px solid black;

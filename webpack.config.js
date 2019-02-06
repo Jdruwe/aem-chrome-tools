@@ -36,6 +36,7 @@ module.exports = {
             {from: "./icons"},
             {from: "./plugin-src/options/**/*.css", flatten: true},
             {from: "./plugin-src/options/**/*.html", flatten: true},
+            {from: "./plugin-src/images/**/*", flatten: true},
         ])
     ],
     module: {
