@@ -20,6 +20,6 @@ This feature will allow you to easily open up the corresponding node of your com
 <img src="https://github.com/Jdruwe/aem-chrome-tools/blob/master/plugin-src/images/component-detail.gif?raw=true"
      width="500"/>
 
-## Development (in progress)
+## Planned
 
-- yarn start
+* Import functionality
