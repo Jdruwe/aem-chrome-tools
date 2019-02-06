@@ -11,6 +11,7 @@ module.exports = {
         "background": "./plugin-src/scripts/background/background.js",
         "options": "./plugin-src/options/options.js",
         "content-environment-display": "./plugin-src/scripts/content/environment-display.js",
+        "content-component-detail": "./plugin-src/scripts/content/component-detail.js",
         "feature-environment-display": "./plugin-src/options/feature-environment-display.js",
         "feature-component-detail": "./plugin-src/options/feature-component-detail.js"
     },

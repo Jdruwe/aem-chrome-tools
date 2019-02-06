@@ -1,7 +1,7 @@
 import {MESSAGE_ENVIRONMENTS_GET, FEATURE_ENVIRONMENT_DISPLAY} from '../../constants'
 import {fetchData, checkFeatureStatus} from '../../util'
 
-function initializeEnvironmentDisplay() {
+function initializeFeature() {
     checkFeatureStatus(FEATURE_ENVIRONMENT_DISPLAY).then((status) => {
         if (status) {
             fetchData(MESSAGE_ENVIRONMENTS_GET, (data) => {
@@ -63,4 +63,4 @@ function addStyleString(styling) {
     document.body.appendChild(node);
 }
 
-initializeEnvironmentDisplay();
+initializeFeature();

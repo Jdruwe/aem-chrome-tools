@@ -25,11 +25,11 @@
     padding: 10px;
     font-style: italic;
     background-color: #E7E7E7;
-    border-bottom: 1px solid black;
 }
 
 .feature__content {
     padding: 10px;
+    border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
 

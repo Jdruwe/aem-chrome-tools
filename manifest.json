@@ -27,6 +27,16 @@
         "content-environment-display.js"
       ],
       "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "http://*/*editor.html*",
+        "https://*/*editor.html*"
+      ],
+      "js": [
+        "content-component-detail.js"
+      ],
+      "run_at": "document_end"
     }
   ],
   "options_page": "options.html"
