@@ -2,10 +2,17 @@ import {fetchData, notify, postData} from "../util";
 import {MESSAGE_FEATURES_UPDATE, MESSAGE_FEATURES_GET} from "../constants";
 
 class NavigationItem {
-    constructor(container, featureName, featureTemplate) {
+    constructor(container, template) {
         this.container = container;
+        this.template = template;
+    }
+}
+
+class FeatureNavigationItem extends NavigationItem {
+
+    constructor(container, template, featureName) {
+        super(container, template);
         this.featureName = featureName;
-        this.featureTemplate = featureTemplate;
     }
 
     setFeatureStatus(status) {
@@ -13,34 +20,45 @@ class NavigationItem {
     }
 }
 
-let navigationItems = [];
+const navigationItems = [];
+
 let features;
 
 function initializeOptions() {
     populateNavigationItems();
-    getFeatures()
-}
-
-function getFeatures() {
-    fetchData(MESSAGE_FEATURES_GET, (data) => {
-        features = data;
-        finaliseNavigationItems();
-    });
+    getFeatures();
 }
 
 function populateNavigationItems() {
     const items = Array.from(document.getElementsByClassName('navigation__item'));
     for (let item of items) {
-        navigationItems.push(new NavigationItem(item, item.dataset.featureName, item.dataset.featureTemplate))
+        if (isFeatureNavigationItem(item)) {
+            navigationItems.push(new FeatureNavigationItem(item, item.dataset.template, item.dataset.featureName))
+        } else {
+            navigationItems.push(new NavigationItem(item, item.dataset.template))
+        }
     }
 }
 
-function finaliseNavigationItems() {
-    navigationItems.forEach(function (navItem) {
-        setNavigationItemFeatureStatus(navItem);
-        setNavigationItemClickListeners(navItem);
+function getFeatures() {
+    fetchData(MESSAGE_FEATURES_GET, (data) => {
+        features = data;
+        finalizeNavigationItems();
     });
-    showFirstFeature();
+}
+
+function isFeatureNavigationItem(item) {
+    return !!item.dataset.featureName;
+}
+
+function finalizeNavigationItems() {
+    navigationItems.forEach(function (navItem) {
+        setNavigationItemClickListeners(navItem);
+        if (navItem instanceof FeatureNavigationItem) {
+            setNavigationItemFeatureStatus(navItem);
+        }
+    });
+    showFirstNavigationItem();
 }
 
 function setNavigationItemFeatureStatus(navItem) {
@@ -53,7 +71,7 @@ function setNavigationItemClickListeners(navItem) {
         if (isCheckbox(e.target)) {
             updateFeatureStatus(navItem, e.target.checked);
         } else {
-            handleFeatureNavigation(navItem);
+            handleNavigation(navItem);
         }
     });
 }
@@ -68,10 +86,10 @@ function updateFeatureStatus(navItem, status) {
     postData(MESSAGE_FEATURES_UPDATE, features, () => notify(message, 2000))
 }
 
-function handleFeatureNavigation(navItem) {
+function handleNavigation(navItem) {
     deactivateNavigationItems();
     activateNavigationItem(navItem.container);
-    loadFeature(navItem.featureTemplate);
+    loadItem(navItem.template);
 }
 
 function activateNavigationItem(item) {
@@ -84,16 +102,16 @@ function deactivateNavigationItems() {
     }
 }
 
-function loadFeature(feature) {
+function loadItem(template) {
+    console.log('>>> loadItem', template);
     const iframe = document.getElementById('iframe');
-    iframe.setAttribute('src', `feature-${feature}.html`);
+    iframe.setAttribute('src', `${template}.html`);
 }
 
-function showFirstFeature() {
+function showFirstNavigationItem() {
     if (navigationItems.length > 0) {
-        handleFeatureNavigation(navigationItems[0]);
+        handleNavigation(navigationItems[0]);
     }
 }
 
 initializeOptions();
-

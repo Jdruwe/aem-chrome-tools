@@ -33,14 +33,31 @@ iframe {
     border-right: 1px solid #ccc;
 }
 
-.navigation__item:hover {
+.navigation__item input {
+    display: inline;
+}
+
+.navigation__item--primary input {
+    margin: 0;
+}
+
+.navigation__item--primary:hover {
     background-color: #ddd;
 }
 
-.navigation__item.active {
+.navigation__item--primary.active {
     background-color: #ccc;
 }
 
-.navigation__item input {
-    display: inline;
+.navigation__item--secondary {
+    background-color: cornflowerblue;
+    color: white;
+}
+
+.navigation__item--secondary:hover {
+    background-color: royalblue;
+}
+
+.navigation__item--secondary.active {
+    background-color: dodgerblue;
 }
