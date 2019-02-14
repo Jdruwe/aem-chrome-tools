@@ -1,5 +1,8 @@
 # AEM Chrome Tools
 
+<img src="https://github.com/Jdruwe/aem-chrome-tools/blob/master/icons/icon128.png?raw=true"
+     width="120"/>
+
 ## Features
 
 ### Environment Display
