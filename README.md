@@ -1,7 +1,6 @@
-# AEM Chrome Tools
+<img align="left" width="80" height="80" src="https://github.com/Jdruwe/aem-chrome-tools/blob/master/icons/icon128.png?raw=true" alt="AEM Chrome Tools Logo">
 
-<img src="https://github.com/Jdruwe/aem-chrome-tools/blob/master/icons/icon128.png?raw=true"
-     width="120"/>
+# AEM Chrome Tools
 
 ## Features
 
