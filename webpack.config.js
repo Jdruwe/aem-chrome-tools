@@ -10,6 +10,7 @@ module.exports = {
     entry: {
         "background": "./plugin-src/scripts/background/background.js",
         "options": "./plugin-src/options/options.js",
+        "other": "./plugin-src/options/other.js",
         "content-environment-display": "./plugin-src/scripts/content/environment-display.js",
         "content-component-detail": "./plugin-src/scripts/content/component-detail.js",
         "feature-environment-display": "./plugin-src/options/feature-environment-display.js",
