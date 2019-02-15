@@ -56,6 +56,12 @@ function getData(property, response) {
     });
 }
 
+function getAllData(response) {
+    chrome.storage.sync.get(null, (data) => {
+        response(data);
+    });
+}
+
 function setData(data, response) {
     chrome.storage.sync.set(data, () => {
         response();
@@ -86,4 +92,8 @@ export function updateEnvironments(response, environments) {
 
 export function importSettings(response, settings) {
     setData(settings, response);
+}
+
+export function exportSettings(response) {
+    getAllData(response);
 }

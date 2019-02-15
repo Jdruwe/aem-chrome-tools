@@ -3,9 +3,10 @@ import {
     MESSAGE_ENVIRONMENTS_UPDATE,
     MESSAGE_FEATURES_GET,
     MESSAGE_FEATURES_UPDATE,
-    MESSAGE_IMPORT_SETTINGS
+    MESSAGE_IMPORT_SETTINGS,
+    MESSAGE_EXPORT_SETTINGS
 } from '../../constants';
-import {getEnvironments, getFeatures, updateEnvironments, updateFeatures, importSettings} from './data';
+import {getEnvironments, getFeatures, updateEnvironments, updateFeatures, importSettings, exportSettings} from './data';
 
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     switch (msg.type) {
@@ -24,6 +25,10 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         case MESSAGE_IMPORT_SETTINGS:
             importSettings(response, msg.data);
             break;
+        case MESSAGE_EXPORT_SETTINGS:
+            exportSettings(response);
+            break;
+
     }
     return true;
 });

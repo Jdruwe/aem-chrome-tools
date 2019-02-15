@@ -7,6 +7,7 @@ export const MESSAGE_FEATURES_GET = "features";
 export const MESSAGE_FEATURES_UPDATE = "updateFeatures";
 
 export const MESSAGE_IMPORT_SETTINGS = "importSettings";
+export const MESSAGE_EXPORT_SETTINGS = "exportSettings";
 
 export const FEATURE_CONTROL_SAVE = "saveFeature";
 export const FEATURE_SAVE_SUCCESS = "Settings have been updated.";

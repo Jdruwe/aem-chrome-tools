@@ -1,10 +1,11 @@
-import {notify, postData} from "../util";
-import {MESSAGE_IMPORT_SETTINGS} from "../constants";
+import {notify, postData, fetchData, download} from "../util";
+import {MESSAGE_IMPORT_SETTINGS, MESSAGE_EXPORT_SETTINGS} from "../constants";
 
-const settings = document.getElementById('settings');
+const importSettings = document.getElementById('importSettings');
+const exportSettings = document.getElementById('exportSettings');
 
 function initializeImportSettings() {
-    settings.addEventListener('change', (event) => {
+    importSettings.addEventListener('change', (event) => {
         handleSettingsImport(event.target.files[0]);
     });
 }
@@ -23,4 +24,21 @@ function updateSettings(event) {
     });
 }
 
+function initializeExportSettings() {
+    exportSettings.addEventListener('click', () => {
+        handleSettingsExport();
+    });
+}
+
+function handleSettingsExport() {
+    fetchData(MESSAGE_EXPORT_SETTINGS, (settings) => {
+        download(formatJSON(settings), 'settings.json', 'application/json');
+    });
+}
+
+function formatJSON(json) {
+    return JSON.stringify(json, null, 4);
+}
+
 initializeImportSettings();
+initializeExportSettings();

@@ -15,6 +15,8 @@ This feature will allow you to easily identify which environment you are working
 <img src="https://github.com/Jdruwe/aem-chrome-tools/blob/master/plugin-src/images/environment-display.png?raw=true"
      width="500"/>
 
+The current implementation is using the `location.startsWith` strategy, keep this in mind when specifying your environments.
+
 ### Component Detail
 
 This feature will allow you to easily open up the corresponding node of your component in CRX Develop.
@@ -24,7 +26,7 @@ This feature will allow you to easily open up the corresponding node of your com
 
 ## Other
 
-### Import Settings
+### Import/Export Settings
 
 Share your settings with others and switch between multiple configurations with ease. The current format is the following:
 
@@ -32,16 +34,16 @@ Share your settings with others and switch between multiple configurations with 
 {
    "environments":[
       {
-         "url":"http://your-production.domain",
+         "url":"https://your-production.domain",
          "color":"#FF0000"
       },
 
       {
-         "url":"http://your-acceptance.domain",
+         "url":"https://your-acceptance.domain",
          "color":"#FFA500"
       },
       {
-         "url":"http://your-test.domain",
+         "url":"https://your-test.domain",
          "color":"#0000FF"
       },
       {
@@ -56,7 +58,3 @@ Share your settings with others and switch between multiple configurations with 
 }
 
 ```
-
-## Planned
-
-* Export functionality
