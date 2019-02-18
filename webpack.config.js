@@ -13,8 +13,7 @@ module.exports = {
         "other": "./plugin-src/options/other.js",
         "content-environment-display": "./plugin-src/scripts/content/environment-display.js",
         "content-component-detail": "./plugin-src/scripts/content/component-detail.js",
-        "feature-environment-display": "./plugin-src/options/feature-environment-display.js",
-        "feature-component-detail": "./plugin-src/options/feature-component-detail.js"
+        "feature-environment-display": "./plugin-src/options/feature-environment-display.js"
     },
     output: {
         publicPath: ".",
