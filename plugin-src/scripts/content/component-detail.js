@@ -30,6 +30,10 @@ function handleMutations() {
     }
 }
 
+function redirectButtonExists() {
+    return document.getElementById(ID_BUTTON_REDIRECT);
+}
+
 function addRedirectButtonToToolbar() {
     const lastButton = getLastToolbarButton();
     if (lastButton) {
@@ -47,10 +51,6 @@ function getNodePathFromToolbarButton(toolbarButton) {
 
 function getLastToolbarButton() {
     return toolbar.lastElementChild;
-}
-
-function redirectButtonExists() {
-    return document.getElementById(ID_BUTTON_REDIRECT);
 }
 
 function createComponentDetailButton() {
