@@ -3,7 +3,7 @@ import {notify} from '../../util';
 chrome.runtime.onInstalled.addListener(function (details) {
     if (isNewInstallation(details)) {
         setInitialData();
-        notify('Installation successful');
+        notify('Installation successful, complete the setup in the options.');
     }
 });
 
@@ -13,38 +13,9 @@ function isNewInstallation(details) {
 
 function setInitialData() {
     chrome.storage.sync.set({
-        "environments": [
-            {
-                "url": "http://author-001.prd.aws.intranet",
-                "color": "#FF0000"
-            },
-            {
-                "url": "http://author.prd.aws.intranet",
-                "color": "#FF0000"
-            },
-            {
-                "url": "http://author-001.acc.aws.intranet",
-                "color": "#FFA500"
-            },
-            {
-                "url": "http://author.acc.aws.intranet",
-                "color": "#FFA500"
-            },
-            {
-                "url": "http://author-001.tst.aws.intranet",
-                "color": "#0000FF"
-            },
-            {
-                "url": "http://author.tst.aws.intranet",
-                "color": "#0000FF"
-            },
-            {
-                "url": "http://localhost:4502",
-                "color": "#008000"
-            }
-        ],
+        "environments": [],
         "features": {
-            "environmentDisplay": true,
+            "environmentDisplay": false,
             "componentDetail": false
         }
     })

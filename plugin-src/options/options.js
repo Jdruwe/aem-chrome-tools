@@ -103,7 +103,6 @@ function deactivateNavigationItems() {
 }
 
 function loadItem(template) {
-    console.log('>>> loadItem', template);
     const iframe = document.getElementById('iframe');
     iframe.setAttribute('src', `${template}.html`);
 }

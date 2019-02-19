@@ -58,3 +58,10 @@ Share your settings with others and switch between multiple configurations with 
 }
 
 ```
+
+## Development
+
+* yarn start
+    * Hot reloading development
+* yarn build_prd
+
