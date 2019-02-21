@@ -65,7 +65,3 @@ Share your settings with others and switch between multiple configurations with 
     * yarn start
 * Production build
     * yarn build_prd
-
-### OneFlow
-
-I am testing out the OneFlow's branching model in this repository, more information can be found <a  target="_blank" href="https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow">here</a>.
