@@ -34,8 +34,8 @@ function displayEnvironmentInfo(color) {
 
 function displayAemEnvironmentInfo(color) {
     addStyleString(`
-        .coral-Shell-header {
-            background-color: ${color};
+        coral-shell-header {
+            background-color: ${color} !important;
         }
     `);
 }
